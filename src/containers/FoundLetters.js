@@ -29,18 +29,29 @@ class FoundLetters extends Component {
       this.props.letters[letter][currentPlayer].currentState === true
     );
     
-    // Create new slots array
-    const newSlots = [null, null, null, null, null];
+    const currentSlots = [...this.state.letterSlots];
     
-    // Fill slots from left to right with discovered letters
-    discoveredLetters.forEach((letter, index) => {
-      if (index < 5) {
-        newSlots[index] = letter;
+    // Remove letters that are no longer discovered
+    for (let i = 0; i < currentSlots.length; i++) {
+      if (currentSlots[i] && !discoveredLetters.includes(currentSlots[i])) {
+        currentSlots[i] = null;
+      }
+    }
+    
+    // Add newly discovered letters to leftmost empty slots
+    discoveredLetters.forEach(letter => {
+      // Check if letter is already placed in slots
+      if (!currentSlots.includes(letter)) {
+        // Find leftmost empty slot
+        const emptyIndex = currentSlots.findIndex(slot => slot === null);
+        if (emptyIndex !== -1) {
+          currentSlots[emptyIndex] = letter;
+        }
       }
     });
     
     this.setState({ 
-      letterSlots: newSlots,
+      letterSlots: currentSlots,
       availableLetters: [] // No separate bank needed
     });
   }

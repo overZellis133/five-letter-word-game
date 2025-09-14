@@ -11,7 +11,7 @@ class Guess extends Component {
   // }
 
   render() {
-    const { letters, guess, player, currentPlayer, toggleLetter } = this.props;
+    const { letters, guess, player, currentPlayer, toggleLetter, guessNumber } = this.props;
     const word = player === currentPlayer ? (guess.guess.split("").map((char, i) => (
       <Letter
         char={char}
@@ -34,12 +34,17 @@ class Guess extends Component {
     )))
     
     return (
-      <div className="guess-list-item">
-        <div className="guess-word-letters">
-          {word}
+      <div className="guess-item-wrapper">
+        <div className="guess-number">
+          {guessNumber}
         </div>
-        <div className="guess-score">
-          {guess.score === true ? '🎉 WIN!' : guess.score}
+        <div className="guess-list-item">
+          <div className="guess-word-letters">
+            {word}
+          </div>
+          <div className="guess-score">
+            {guess.score === true ? '🎉 WIN!' : guess.score}
+          </div>
         </div>
       </div>
     );

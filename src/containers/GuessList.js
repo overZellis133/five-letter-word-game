@@ -13,6 +13,7 @@ class GuessList extends Component {
             guess={guess}
             player={player}
             currentPlayer={currentPlayer}
+            guessNumber={i + 1}
           />
         ));
       }
@@ -23,6 +24,7 @@ class GuessList extends Component {
             guess={guess}
             player={player}
             currentPlayer={currentPlayer}
+            guessNumber={i + 1}
           />
         ));
       }
