@@ -5,9 +5,6 @@ import Letter from '../containers/Letter';
 import { stateChange } from '../helpers/stateChange';
 
 class Guess extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   // handleToggle = (letter, currentPlayer, toggleState) => {
   //   this.props.toggleLetter(letter, currentPlayer, toggleState);
@@ -35,10 +32,16 @@ class Guess extends Component {
         currentState={letters[char.toLowerCase()][player].currentState}
       />
     )))
+    
     return (
-      <li>
-        {word} - {guess.score}
-      </li>
+      <div className="guess-list-item">
+        <div className="guess-word-letters">
+          {word}
+        </div>
+        <div className="guess-score">
+          {guess.score === true ? '🎉 WIN!' : guess.score}
+        </div>
+      </div>
     );
   }
 }

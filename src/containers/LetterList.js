@@ -3,20 +3,7 @@ import Letter from './Letter';
 import { connect } from 'react-redux';
 
 class LetterList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const falseStyle = {
-      textDecoration: 'line-through',
-      color: 'red'
-    }
-    const trueStyle = {
-      textDecoration: 'underline green',
-      color: 'green',
-      fontWeight: 'bold'
-    }
     const { currentPlayer, player } = this.props;
     const alphabet = Object.keys(this.props.letters);
     const letters = alphabet.map(letter => (
@@ -30,9 +17,9 @@ class LetterList extends Component {
       />
     ));
     return (
-      <ul>
+      <div className="letter-list-container">
         {letters}
-      </ul>
+      </div>
     );
   }
 }

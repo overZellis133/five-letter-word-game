@@ -61,31 +61,67 @@ class GuessForm extends Component {
     return count;
   }
 
-  render() {
+  handleFormSubmit = e => {
+    e.preventDefault();
+    
+    // Validate guess length and characters
+    const guess = this.state.guess.trim();
+    if (guess.length !== 5) {
+      alert('Please enter exactly 5 letters!');
+      return;
+    }
+    
+    if (!/^[A-Za-z]+$/.test(guess)) {
+      alert('Please use only letters (no numbers or symbols)!');
+      return;
+    }
+    
+    this.handleSubmit(e);
+  }
 
+  render() {
     const allPlayers = Object.values(this.props.players)
     let nextPlayer = allPlayers.filter(player => player !== this.props.match.params.player)[0];
     return (
-      <div className="col-md-6">
+      <div className="guess-form-container">
         <form
-          onSubmit={this.handleSubmit}
-          className="form-inline"
+          onSubmit={this.handleFormSubmit}
+          className="guess-form"
           autoComplete="off"
         >
-          <input
-            type="text"
-            className="form-control"
-            value={this.state.guess}
-            onChange={this.handleChange}
-            name={this.props.match.params.player}
-            autoFocus
-          />
-          <button type="submit" className="btn btn-success">
-            Guess
-          </button>
-          <Link to={`/turn/${nextPlayer}`} className="btn btn-danger">
-            End Turn
-          </Link>
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control guess-input"
+              value={this.state.guess}
+              onChange={this.handleChange}
+              name={this.props.match.params.player}
+              placeholder="GUESS"
+              autoFocus
+              maxLength="5"
+              style={{textTransform: 'uppercase'}}
+            />
+            
+            <div className="button-group">
+              <button type="submit" className="btn guess-btn guess-btn-primary">
+                <span role="img" aria-label="Target">🎯</span> Make Guess
+              </button>
+              <Link to={`/turn/${nextPlayer}`} className="btn guess-btn guess-btn-secondary">
+                <span role="img" aria-label="Refresh">🔄</span> End Turn
+              </Link>
+            </div>
+          </div>
+          
+          <div className="guess-hint">
+            <p style={{
+              color: '#6c757d', 
+              fontSize: '0.9rem', 
+              margin: '10px 0 0 0',
+              textAlign: 'center'
+            }}>
+              <span role="img" aria-label="Lightbulb">💡</span> Enter a 5-letter word to guess your opponent's secret word
+            </p>
+          </div>
         </form>
       </div>
     );

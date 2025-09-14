@@ -5,25 +5,148 @@ import Letter from './Letter';
 class FoundLetters extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      letterSlots: [null, null, null, null, null], // 5 empty slots
+      availableLetters: [] // Letters not yet placed in slots
+    };
   }
 
-  render() {
-    const { currentPlayer, player } = this.props;
+  componentDidMount() {
+    this.updateLetterSlots();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Update letter slots when new letters are discovered
+    if (prevProps.letters !== this.props.letters) {
+      this.updateLetterSlots();
+    }
+  }
+
+  updateLetterSlots = () => {
+    const { currentPlayer } = this.props;
     const alphabet = Object.keys(this.props.letters);
-    const trueLetters = alphabet.filter(letter => this.props.letters[letter][currentPlayer].currentState === true)
-      .map(found => (
+    const discoveredLetters = alphabet.filter(letter => 
+      this.props.letters[letter][currentPlayer].currentState === true
+    );
+    
+    // Create new slots array
+    const newSlots = [null, null, null, null, null];
+    
+    // Fill slots from left to right with discovered letters
+    discoveredLetters.forEach((letter, index) => {
+      if (index < 5) {
+        newSlots[index] = letter;
+      }
+    });
+    
+    this.setState({ 
+      letterSlots: newSlots,
+      availableLetters: [] // No separate bank needed
+    });
+  }
+
+  handleDragStart = (e, letter) => {
+    e.dataTransfer.setData('text/plain', letter);
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  handleDragEnter = (e) => {
+    e.preventDefault();
+    e.currentTarget.classList.add('drag-over');
+  }
+
+  handleDragLeave = (e) => {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+  }
+
+  handleDropOnSlot = (e, slotIndex) => {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    const letter = e.dataTransfer.getData('text/plain');
+    
+    const newSlots = [...this.state.letterSlots];
+    
+    // Find the current position of the dragged letter
+    const currentIndex = newSlots.indexOf(letter);
+    
+    // If dropping on the same slot, do nothing
+    if (currentIndex === slotIndex) {
+      return;
+    }
+    
+    // Remove letter from its current position
+    if (currentIndex > -1) {
+      newSlots[currentIndex] = null;
+    }
+    
+    // If target slot has a letter, swap them
+    if (newSlots[slotIndex] !== null && currentIndex > -1) {
+      newSlots[currentIndex] = newSlots[slotIndex];
+    }
+    
+    // Place the dragged letter in the target slot
+    newSlots[slotIndex] = letter;
+    
+    this.setState({
+      letterSlots: newSlots
+    });
+  }
+
+  // Remove this method since we don't have a separate available letters area
+
+  renderDraggableLetter = (letter, isDraggable = true) => {
+    const { currentPlayer, player } = this.props;
+    
+    return (
+      <div
+        key={letter}
+        className="draggable-letter"
+        draggable={isDraggable && player === currentPlayer}
+        onDragStart={(e) => this.handleDragStart(e, letter)}
+      >
         <Letter
-          char={found}
-          key={found}
+          char={letter}
           currentPlayer={currentPlayer}
           player={player}
           currentState={true}
         />
-      ));
+      </div>
+    );
+  }
+
+  render() {
+    const { letterSlots } = this.state;
+
     return (
-      <div className="col-md-3">
-        <h1>Identified Letters</h1>
-        <ul>{trueLetters}</ul>
+      <div className="found-letters-container">
+        <div className="letters-workspace">
+          {/* 5 Letter Slots - Always visible */}
+          <div className="letter-slots">
+            <h5 className="slots-title">Word Builder</h5>
+            <div className="slots-grid">
+              {letterSlots.map((letter, index) => (
+                <div
+                  key={index}
+                  className={`letter-slot ${letter ? 'filled' : 'empty'}`}
+                  onDragOver={this.handleDragOver}
+                  onDragEnter={this.handleDragEnter}
+                  onDragLeave={this.handleDragLeave}
+                  onDrop={(e) => this.handleDropOnSlot(e, index)}
+                >
+                  {letter ? this.renderDraggableLetter(letter) : (
+                    <span className="slot-placeholder">{index + 1}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

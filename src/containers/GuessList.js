@@ -3,12 +3,6 @@ import { connect } from 'react-redux';
 import Guess from '../components/Guess';
 
 class GuessList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
-
   render() {
     const {player, currentPlayer} = this.props;
     let playerGuesses = () => {
@@ -34,11 +28,18 @@ class GuessList extends Component {
       }
     }
     return (
-      <div className="col-md-3 guess-list">
-        <h1>{this.props.name} Guesses</h1>
-        <ul>
-          {playerGuesses()}
-        </ul>
+      <div className="guesses-list">
+        {this.props.guesses[`${player}Guesses`].length === 0 ? (
+          <div className="empty-state">
+            <p style={{color: '#6c757d', fontStyle: 'italic', textAlign: 'center', margin: '20px 0', fontSize: '0.9rem'}}>
+              No guesses yet...
+            </p>
+          </div>
+        ) : (
+          <div className="guesses-content">
+            {playerGuesses()}
+          </div>
+        )}
       </div>
     );
   }

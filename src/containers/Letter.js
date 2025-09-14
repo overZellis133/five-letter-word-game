@@ -1,37 +1,40 @@
 import React, { Component } from 'react';
-import {stateChange} from '../helpers/stateChange';
 import { connect } from 'react-redux';
 
 class Letter extends Component {
-  constructor(props) {
-    super(props);
-  }
 
 // props -- char, toggleState
   render() {
     const { char, currentPlayer, currentState, player } = this.props;
-    const falseStyle = {
-      textDecoration: 'line-through',
-      color: 'red'
+    
+    let letterClass = 'letter-item';
+    if (currentState === true) {
+      letterClass += ' correct';
+    } else if (currentState === false) {
+      letterClass += ' incorrect';
     }
-    const trueStyle = {
-      textDecoration: 'underline green',
-      color: 'green',
-      fontWeight: 'bold'
-    }
+    
     return (
       player === currentPlayer ?
       (<span
+        className={letterClass}
         onClick={this.props.toggleState}
-        style={currentState === false ? falseStyle : currentState === true ? trueStyle : null}
+        role="button"
+        tabIndex={0}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            this.props.toggleState();
+          }
+        }}
+        style={{cursor: this.props.toggleState ? 'pointer' : 'default'}}
       >
-        {`${char} `}
+        {char.toUpperCase()}
       </span>) :
       (<span
-        // onClick={toggleState}
-        // style={currentState === false ? falseStyle : currentState === true ? trueStyle : null}
+        className={letterClass}
+        style={{cursor: 'default'}}
       >
-        {`${char} `}
+        {char.toUpperCase()}
       </span>)
     )
   }

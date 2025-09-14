@@ -1,18 +1,205 @@
+/* Global Styles for Five Letter Word Game */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-form, .guess-list {
-  padding-top: 50px;
+#root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-button, .btn-danger {
-  margin-left: 5px;
+/* Enhanced Form Styling */
+form {
+  margin: 20px 0;
 }
 
+.guess-list {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.guess-list h3 {
+  color: #495057;
+  margin-bottom: 15px;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+/* Button Group Styling */
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+button, .btn-danger, .btn-success, .btn-primary {
+  margin: 5px;
+  font-family: inherit;
+}
+
+/* Desmos Calculator Container */
 .desmos {
-  padding-left: 28%;
-  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  margin-top: 30px;
+}
+
+.desmos iframe {
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Game Statistics */
+.game-stats {
+  display: flex;
+  justify-content: space-around;
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #e9ecef;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 10px;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #667eea;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Letter Grid */
+.letter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  border: 1px solid #e9ecef;
+}
+
+/* Alphabet Display */
+.alphabet-display {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e9ecef;
+}
+
+.alphabet-display h4 {
+  color: #495057;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Game Progress Bar */
+.progress-container {
+  background: #e9ecef;
+  border-radius: 10px;
+  height: 8px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .desmos {
+    padding: 20px 10px;
+  }
+  
+  .desmos iframe {
+    width: 100% !important;
+    max-width: 400px;
+    height: 400px !important;
+  }
+  
+  .letter-grid {
+    gap: 5px;
+    padding: 15px;
+  }
+}
+
+/* Smooth Transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Focus States for Accessibility */
+button:focus,
+input:focus,
+.letter-display:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #5a6fd8, #6a4190);
 }
