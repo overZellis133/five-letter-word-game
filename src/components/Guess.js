@@ -15,7 +15,7 @@ class Guess extends Component {
     const word = player === currentPlayer ? (guess.guess.split("").map((char, i) => (
       <Letter
         char={char}
-        toggleState={toggleLetter.bind(this, char, currentPlayer, stateChange(letters[char.toLowerCase()][currentPlayer].currentState))}
+        toggleState={toggleLetter.bind(this, char.toLowerCase(), currentPlayer, stateChange(letters[char.toLowerCase()][currentPlayer].currentState))}
         key={i}
         player={player}
         currentPlayer={currentPlayer}
