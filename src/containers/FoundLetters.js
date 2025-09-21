@@ -16,8 +16,8 @@ class FoundLetters extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // Update letter slots when new letters are discovered
-    if (prevProps.letters !== this.props.letters) {
+    // Update letter slots when new letters are discovered OR when currentPlayer changes
+    if (prevProps.letters !== this.props.letters || prevProps.currentPlayer !== this.props.currentPlayer) {
       this.updateLetterSlots();
     }
   }
